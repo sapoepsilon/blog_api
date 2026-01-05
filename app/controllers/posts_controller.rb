@@ -1,5 +1,5 @@
 class PostsController < ApplicationController
-  before_action :set_post, only: %i[ show update destroy ]
+  before_action :set_post, only: %i[ show update destroy increment_view ]
 
   # GET /posts
   def index
@@ -38,6 +38,12 @@ class PostsController < ApplicationController
     @post.destroy!
   end
 
+  # POST /posts/:id/increment_view
+  def increment_view
+    @post.increment!(:view_count)
+    head :no_content
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_post
@@ -45,7 +51,8 @@ class PostsController < ApplicationController
     end
 
     # Only allow a list of trusted parameters through.
+    # Note: view_count is intentionally excluded to prevent manipulation
     def post_params
-      params.expect(post: [ :title, :slug, :content, :published_at, :edited_at, :view_count ])
+      params.expect(post: [ :title, :slug, :content, :published_at, :edited_at ])
     end
 end
