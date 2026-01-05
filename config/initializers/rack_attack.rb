@@ -23,11 +23,13 @@ class Rack::Attack
     req.ip
   end
 
-  # Block suspicious requests
-  blocklist("block bad user agents") do |req|
-    # Block requests with no user agent (often bots)
-    # But allow internal/health check requests
-    req.user_agent.blank? && !req.path.start_with?("/up")
+  # Block suspicious requests (skip in test environment)
+  unless Rails.env.test?
+    blocklist("block bad user agents") do |req|
+      # Block requests with no user agent (often bots)
+      # But allow internal/health check requests
+      req.user_agent.blank? && !req.path.start_with?("/up")
+    end
   end
 
   # Custom response for rate-limited requests
