@@ -1,16 +1,16 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  title: MyString
-  slug: MyString
+  title: First Post
+  slug: first-post
   content: MyText
   published_at: 2025-11-09 16:14:14
   edited_at: 2025-11-09 16:14:14
   view_count: 1
 
 two:
-  title: MyString
-  slug: MyString
+  title: Second Post
+  slug: second-post
   content: MyText
   published_at: 2025-11-09 16:14:14
   edited_at: 2025-11-09 16:14:14

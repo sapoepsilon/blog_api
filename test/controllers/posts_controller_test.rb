@@ -12,7 +12,7 @@ class PostsControllerTest < ActionDispatch::IntegrationTest
 
   test "should create post" do
     assert_difference("Post.count") do
-      post posts_url, params: { post: { content: @post.content, edited_at: @post.edited_at, published_at: @post.published_at, slug: @post.slug, title: @post.title, view_count: @post.view_count } }, as: :json
+      post posts_url, params: { post: { content: @post.content, edited_at: @post.edited_at, published_at: @post.published_at, slug: "unique-new-slug", title: @post.title } }, as: :json
     end
 
     assert_response :created
@@ -24,7 +24,7 @@ class PostsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should update post" do
-    patch post_url(@post), params: { post: { content: @post.content, edited_at: @post.edited_at, published_at: @post.published_at, slug: @post.slug, title: @post.title, view_count: @post.view_count } }, as: :json
+    patch post_url(@post), params: { post: { content: @post.content, edited_at: @post.edited_at, published_at: @post.published_at, slug: @post.slug, title: @post.title } }, as: :json
     assert_response :success
   end
 
@@ -34,5 +34,13 @@ class PostsControllerTest < ActionDispatch::IntegrationTest
     end
 
     assert_response :no_content
+  end
+
+  test "should increment view count" do
+    initial_count = @post.view_count || 0
+    post increment_view_post_url(@post), as: :json
+    assert_response :no_content
+    @post.reload
+    assert_equal initial_count + 1, @post.view_count
   end
 end

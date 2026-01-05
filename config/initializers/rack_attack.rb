@@ -31,11 +31,11 @@ class Rack::Attack
   end
 
   # Custom response for rate-limited requests
-  self.throttled_responder = lambda do |req|
+  self.throttled_responder = lambda do |_req|
     [
       429,
       { "Content-Type" => "application/json" },
-      [{ error: "Rate limit exceeded. Please try again later." }.to_json]
+      [ { error: "Rate limit exceeded. Please try again later." }.to_json ]
     ]
   end
 end
